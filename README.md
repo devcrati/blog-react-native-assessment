@@ -2,6 +2,12 @@
 
 This project is a React Native application using Expo, designed to display a list of articles. The application is structured to progressively add features across multiple levels, from rendering static data to integrating with a live API and implementing advanced features like search and navigation.
 
+
+
+https://github.com/user-attachments/assets/dcb302ce-cd17-46ce-bb6d-0b4090d57754
+
+
+
 ## Getting Started
 
 To get started with this project, you can run the following commands:
