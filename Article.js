@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import { Image } from "expo-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Article({ item }) {
+const Article = memo(function Article({ item }) {
   const handleSave = async () => {
     const saved = await AsyncStorage.getItem("savedArticles");
     if (saved) {
@@ -42,7 +42,9 @@ export default function Article({ item }) {
       />
     </View>
   );
-}
+});
+
+export default Article;
 
 const styles = StyleSheet.create({
   article: {

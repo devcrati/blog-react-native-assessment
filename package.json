@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "test1": "jest tests/level1/App.test.js",
     "test2": "jest tests/level2/App.test.js",
-    "test3": "jest tests/level3/App.test.js"
+    "test3": "jest tests/level3/App.test.js",
+    "test4": "jest tests/level4/App.test.js"
+
   },
   "dependencies": {
     "@expo/cli": "^0.10.14",

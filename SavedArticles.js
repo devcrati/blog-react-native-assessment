@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, StyleSheet, View } from "react-native";
+import { Button, FlatList, StyleSheet, Text, View } from "react-native";
 import Article from "./Article";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SavedArticles({ navigation }) {
-  const items = [];
   const [savedArticles, setSavedArticles] = useState([]);
 
   const getArticles = async () => {
-    AsyncStorage.getItem("savedArticles")
-      .then((value) => setSavedArticles(JSON.parse(value)))
-      .catch((err) => setSavedArticles([]));
+    const jsonValue = await AsyncStorage.getItem("savedArticles");
+    if (jsonValue != null) {
+      setSavedArticles(JSON.parse(jsonValue));
+    }
   };
 
   useEffect(() => {
@@ -20,11 +20,11 @@ export default function SavedArticles({ navigation }) {
   return (
     <View testID="app_container">
       <Button title="Back" testID="back_button" onPress={navigation.goBack} />
-      <Text style={steyls.headlines} testID="app_title">
+      <Text style={styles.headlines} testID="app_title">
         Saved Articles
       </Text>
       <FlatList
-        data={items}
+        data={savedArticles}
         testID="articles_list"
         renderItem={({ item }) => <Article key={item.id} item={item} />}
         ItemSeparatorComponent={<View style={styles.separator} />}
@@ -45,5 +45,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 16,
     color: "#3498db",
+  },
+  separator: {
+    height: 10,
   },
 });

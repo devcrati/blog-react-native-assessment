@@ -47,6 +47,10 @@
     "test3": {
       "name": "test3",
       "command": "pnpm run test3"
+    },
+    "test4": {
+      "name": "test4",
+      "command": "pnpm run test4"
     }
   }
 }

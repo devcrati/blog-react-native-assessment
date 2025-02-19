@@ -4,6 +4,7 @@ import {
   Alert,
   Button,
   FlatList,
+  RefreshControl,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -19,22 +20,26 @@ export default function NewsList({ navigation }) {
   const [isLoading, setLoading] = useState(false);
   const [query, setQuery] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     setLoading(true);
     try {
-      const data = await getNews();
-      setArticles(data);
+      const data = await getNews(page);
+      setArticles((prev) => [...prev, ...data]);
       setLoading(false);
+      setRefreshing(false);
     } catch (error) {
       setLoading(false);
+      setRefreshing(false);
       Alert.alert("Error", "Failed to load articles.");
     }
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     setFilteredArticles(
@@ -43,10 +48,20 @@ export default function NewsList({ navigation }) {
           article.title.includes(query) || article.description.includes(query)
       )
     );
-  }, [query]);
+  }, [query, articles]);
 
   const handleNavigation = () => {
     navigation.navigate("Saved");
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getData();
+  };
+
+  const onEndReached = (info) => {
+    console.log(info);
+    setPage(page + 1);
   };
 
   // Implement the solution here
@@ -56,7 +71,12 @@ export default function NewsList({ navigation }) {
       <Text style={styles.headlines} testID="app_title">
         News Today
       </Text>
-      <TextInput value={query} onChangeText={setQuery} testID="search_input" />
+      <TextInput
+        style={styles.textInput}
+        value={query}
+        onChangeText={setQuery}
+        testID="search_input"
+      />
       <Button
         testID="navigate_saved_articles_button"
         title="SavedArticles"
@@ -66,10 +86,25 @@ export default function NewsList({ navigation }) {
         <ActivityIndicator testID="loading_indicator" />
       ) : (
         <FlatList
+          style={styles.list}
           data={filteredArticles}
           testID="articles_list"
           renderItem={({ item }) => <Article key={item.id} item={item} />}
-          ItemSeparatorComponent={<View style={styles.separator} />}
+          ItemSeparatorComponent={
+            <View
+              style={styles.separator}
+              initialNumToRender={10}
+              maxToRenderPerBatch={10}
+            />
+          }
+          initialNumToRender={10}
+          maxToRenderPerBatch={5}
+          windowSize={21}
+          updateCellsBatchingPeriod={50}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          onEndReachedThreshold={0.2}
+          onEndReached={onEndReached}
         />
       )}
     </SafeAreaView>
@@ -91,5 +126,13 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 10,
+  },
+  textInput: {
+    padding: 8,
+    margin: 16,
+    backgroundColor: "white",
+  },
+  list: {
+    marginHorizontal: 16,
   },
 });
