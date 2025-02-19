@@ -17,6 +17,9 @@ Note: This question has four levels, each requiring you to progressively add mor
 - Ensure each article item is properly separated and the list is scrollable.
 - Maintain the existing file structure and filenames (`App.js`, `Article.js`, `NewsList.js`).
 
+![Screenshot at Feb 18 22-27-18](https://github.com/user-attachments/assets/f1da173c-4954-4fa3-91ac-596252122ed9)
+
+
 ## Test Identifiers
 
 To faciliatate automated testing, please apply the following `testID`s to the specified components in your application:
@@ -226,6 +229,9 @@ Continue enhancing the React Native application developed at the previous levels
 - Enable users to save articles for later reading by adding a save button. Persist the saved articles using `AsyncStorage`.
 
 Maintain the existing file structure and filenames.
+
+![Screenshot at Feb 18 22-53-05](https://github.com/user-attachments/assets/6b0bd266-f4d9-430a-a68d-3f8ae3a815c3)
+
 
 ## Test Identifiers
 
