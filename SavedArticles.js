@@ -18,11 +18,13 @@ export default function SavedArticles({ navigation }) {
   }, []);
   // Implement the solution here
   return (
-    <View testID="app_container">
-      <Button title="Back" testID="back_button" onPress={navigation.goBack} />
-      <Text style={styles.headlines} testID="app_title">
-        Saved Articles
-      </Text>
+    <View style={styles.container} testID="app_container">
+      <View style={styles.header}>
+        <Button title="Back" testID="back_button" onPress={navigation.goBack} />
+        <Text style={styles.headlines} testID="app_title">
+          Saved Articles
+        </Text>
+      </View>
       <FlatList
         data={savedArticles}
         testID="articles_list"
@@ -34,6 +36,9 @@ export default function SavedArticles({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+  },
   container: {
     flex: 1,
     backgroundColor: "#ecf0f1",

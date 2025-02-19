@@ -24,9 +24,14 @@ export default function NewsList({ navigation }) {
   const [page, setPage] = useState(1);
 
   const getData = async () => {
-    setLoading(true);
+    if (page === 1) setLoading(true);
     try {
       const data = await getNews(page);
+      if (data.length === 0) {
+        setLoading(false);
+        setRefreshing(false);
+        return;
+      }
       setArticles((prev) => [...prev, ...data]);
       setLoading(false);
       setRefreshing(false);
@@ -60,7 +65,6 @@ export default function NewsList({ navigation }) {
   };
 
   const onEndReached = (info) => {
-    console.log(info);
     setPage(page + 1);
   };
 
@@ -68,20 +72,24 @@ export default function NewsList({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {/* Implement the solution here */}
-      <Text style={styles.headlines} testID="app_title">
-        News Today
-      </Text>
+      <View style={styles.header}>
+        <Text style={styles.headlines} testID="app_title">
+          News Today
+        </Text>
+        <Button
+          testID="navigate_saved_articles_button"
+          title="SavedArticles"
+          onPress={handleNavigation}
+        />
+      </View>
       <TextInput
         style={styles.textInput}
         value={query}
         onChangeText={setQuery}
         testID="search_input"
+        placeholder="Search articles"
       />
-      <Button
-        testID="navigate_saved_articles_button"
-        title="SavedArticles"
-        onPress={handleNavigation}
-      />
+
       {isLoading ? (
         <ActivityIndicator testID="loading_indicator" />
       ) : (
@@ -103,7 +111,7 @@ export default function NewsList({ navigation }) {
           updateCellsBatchingPeriod={50}
           refreshing={refreshing}
           onRefresh={onRefresh}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0.5}
           onEndReached={onEndReached}
         />
       )}
@@ -120,7 +128,6 @@ const styles = StyleSheet.create({
   headlines: {
     fontSize: 32,
     fontWeight: "bold",
-    marginTop: 20,
     paddingHorizontal: 16,
     color: "#3498db",
   },
@@ -134,5 +141,8 @@ const styles = StyleSheet.create({
   },
   list: {
     marginHorizontal: 16,
+  },
+  header: {
+    flexDirection: "row",
   },
 });

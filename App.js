@@ -18,7 +18,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Saved" component={SavedArticlesScreen} />
       </Stack.Navigator>
@@ -28,7 +28,7 @@ export default function App() {
 
 function HomeScreen({ navigation }) {
   return (
-    <View steyle={styles.container} testID="app_container">
+    <View style={styles.container} testID="app_container">
       <NewsList navigation={navigation} />
     </View>
   );

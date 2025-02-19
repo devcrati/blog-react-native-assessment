@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    paddingHorizontal: 10,
   },
   articleTitle: {
     fontSize: 20,
